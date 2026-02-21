@@ -42,6 +42,12 @@ border:none;
 border-radius:5px;
 }
 
+.gallery img
+{
+width:300px;
+margin:20px;
+}
+
 </style>
 
 </head>
@@ -49,23 +55,63 @@ border-radius:5px;
 <body>
 
 
+<div id="main"></div>
+
+
+<script>
+
+const URL="https://script.google.com/macros/s/AKfycby8ry-E4PFZlIOGxwaDBD7eLr-dlwzezNY8Tz8F9lnGckTThxNorLSKxZ-fzZhk6Iys/exec";
+
+
+fetch(URL)
+
+.then(res=>res.text())
+
+.then(mode=>
+{
+
+if(mode=="gallery")
+{
+
+showGallery();
+
+}
+
+else
+{
+
+showForm();
+
+}
+
+});
+
+
+
+
+function showForm()
+{
+
+document.getElementById("main").innerHTML=`
+
 <div class="container">
 
-<h2>Freshers Party Attendance</h2>
-
-<form method="POST"
-action="https://script.google.com/macros/s/AKfycbzzpB98ncRqvTTsupRMFY5CRAdKxTaoD9Q6L2u7zG5r4zSwTycpoOFKluFbxdCBMT9o/exec"
-target="hidden_iframe"
-onsubmit="showMessage()">
+<h2>Freshers Attendance</h2>
 
 
-<input type="text" name="name" placeholder="Enter Name" required>
+<form method="POST" action="${URL}" target="hidden_iframe" onsubmit="return checkDuplicate()">
 
-<input type="text" name="roll" placeholder="Enter Roll No" required>
+
+
+<input type="text" name="name" required placeholder="Name">
+
+<input type="text" name="roll" id="roll" required placeholder="Roll No">
+
 
 <button type="submit">Submit</button>
 
 </form>
+
 
 <iframe name="hidden_iframe" style="display:none;"></iframe>
 
@@ -73,13 +119,71 @@ onsubmit="showMessage()">
 
 </div>
 
+`;
 
-<script>
+}
 
-function showMessage()
+
+
+
+function checkDuplicate()
 {
 
-document.getElementById("msg").innerHTML="Attendance Submitted Successfully";
+var roll=document.getElementById("roll").value;
+
+
+fetch(URL+"?roll="+roll)
+
+.then(res=>res.text())
+
+.then(result=>
+{
+
+
+if(result=="EXISTS")
+{
+
+document.getElementById("msg").innerHTML="Attendance already marked";
+
+}
+else
+{
+
+document.getElementById("msg").innerHTML="Attendance successful";
+
+document.forms[0].submit();
+
+}
+
+
+});
+
+
+return false;
+
+}
+
+
+
+
+function showGallery()
+{
+
+document.getElementById("main").innerHTML=`
+
+<h1>Event Gallery</h1>
+
+<div class="gallery">
+
+<img src="photo1.jpg">
+
+<img src="photo2.jpg">
+
+<img src="photo3.jpg">
+
+</div>
+
+`;
 
 }
 
