@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Freshers Party Attendance</title>
+
+<style>
+
+body
+{
+font-family: Arial, sans-serif;
+background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+color: white;
+text-align: center;
+margin: 0;
+padding: 0;
+}
+
+.container
+{
+margin-top: 100px;
+background: rgba(0,0,0,0.6);
+padding: 30px;
+border-radius: 15px;
+width: 300px;
+margin-left: auto;
+margin-right: auto;
+box-shadow: 0 0 20px rgba(255,255,255,0.2);
+}
+
+input
+{
+width: 90%;
+padding: 10px;
+margin: 10px;
+border-radius: 8px;
+border: none;
+}
+
+button
+{
+padding: 10px 20px;
+border: none;
+border-radius: 8px;
+background: purple;
+color: white;
+font-size: 16px;
+cursor: pointer;
+}
+
+button:hover
+{
+background: violet;
+}
+
+.gallery img
+{
+width: 300px;
+margin: 20px;
+border-radius: 10px;
+box-shadow: 0 0 10px white;
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<div id="main">Loading...</div>
+
+
+
+<script>
+
+
+const scriptURL = "https://script.google.com/macros/s/AKfycbzzpB98ncRqvTTsupRMFY5CRAdKxTaoD9Q6L2u7zG5r4zSwTycpoOFKluFbxdCBMT9o/exec";
+
+
+
+/* CHECK MODE */
+
+fetch(scriptURL)
+
+.then(res=>res.text())
+
+.then(mode=>
+{
+
+
+if(mode=="gallery")
+{
+
+showGallery();
+
+}
+
+else
+{
+
+showForm();
+
+}
+
+
+});
+
+
+
+
+
+function showForm()
+{
+
+document.getElementById("main").innerHTML = `
+
+<div class="container">
+
+<h2>Freshers Party Attendance</h2>
+
+<form id="form">
+
+<input type="text" id="name" placeholder="Enter Name" required>
+
+<input type="text" id="roll" placeholder="Enter Roll No" required>
+
+<button type="submit">Submit</button>
+
+</form>
+
+</div>
+
+`;
+
+
+
+document.getElementById("form").addEventListener("submit", function(e)
+{
+
+e.preventDefault();
+
+var name = document.getElementById("name").value;
+
+var roll = document.getElementById("roll").value;
+
+
+
+fetch(scriptURL,
+{
+method: "POST",
+body: new URLSearchParams(
+{
+name: name,
+roll: roll
+})
+})
+
+.then(res=>res.text())
+
+.then(result=>
+{
+
+
+if(result=="EXISTS")
+{
+
+alert("Attendance already marked");
+
+}
+
+else
+{
+
+alert("Attendance successful");
+
+document.getElementById("form").reset();
+
+}
+
+
+});
+
+
+});
+
+
+
+}
+
+
+
+
+
+
+function showGallery()
+{
+
+document.getElementById("main").innerHTML = `
+
+<h1>Freshers Party Memories</h1>
+
+<div class="gallery">
+
+<img src="photo1.jpg">
+
+<img src="photo2.jpg">
+
+<img src="photo3.jpg">
+
+</div>
+
+`;
+
+
+
+}
+
+
+
+</script>
+
+
+</body>
+
+</html>
