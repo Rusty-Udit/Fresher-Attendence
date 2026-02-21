@@ -1,67 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Freshers Party Attendance</title>
+<title>Freshers Attendance</title>
 
 <style>
 
 body
 {
-font-family: Arial, sans-serif;
-background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-color: white;
-text-align: center;
-margin: 0;
-padding: 0;
+font-family: Arial;
+background: linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+color:white;
+text-align:center;
+margin-top:100px;
 }
 
 .container
 {
-margin-top: 100px;
-background: rgba(0,0,0,0.6);
-padding: 30px;
-border-radius: 15px;
-width: 300px;
-margin-left: auto;
-margin-right: auto;
-box-shadow: 0 0 20px rgba(255,255,255,0.2);
+background:rgba(0,0,0,0.6);
+padding:30px;
+width:300px;
+margin:auto;
+border-radius:10px;
 }
 
 input
 {
-width: 90%;
-padding: 10px;
-margin: 10px;
-border-radius: 8px;
-border: none;
+width:90%;
+padding:10px;
+margin:10px;
+border-radius:5px;
+border:none;
 }
 
 button
 {
-padding: 10px 20px;
-border: none;
-border-radius: 8px;
-background: purple;
-color: white;
-font-size: 16px;
-cursor: pointer;
-}
-
-button:hover
-{
-background: violet;
-}
-
-.gallery img
-{
-width: 300px;
-margin: 20px;
-border-radius: 10px;
-box-shadow: 0 0 10px white;
+padding:10px 20px;
+background:purple;
+color:white;
+border:none;
+border-radius:5px;
 }
 
 </style>
@@ -71,48 +49,15 @@ box-shadow: 0 0 10px white;
 <body>
 
 
-<div id="main">Loading...</div>
-
-
-
-<script>
-
-const scriptURL = "https://script.google.com/macros/s/AKfycbzzpB98ncRqvTTsupRMFY5CRAdKxTaoD9Q6L2u7zG5r4zSwTycpoOFKluFbxdCBMT9o/exec";
-
-
-fetch(scriptURL)
-.then(res=>res.text())
-.then(mode=>
-{
-
-if(mode=="gallery")
-{
-
-showGallery();
-
-}
-
-else
-{
-
-showForm();
-
-}
-
-});
-
-
-
-function showForm()
-{
-
-document.getElementById("main").innerHTML = `
-
 <div class="container">
 
 <h2>Freshers Party Attendance</h2>
 
-<form method="POST" action="${scriptURL}" target="hidden_iframe" onsubmit="submitted()">
+<form method="POST"
+action="https://script.google.com/macros/s/AKfycbzzpB98ncRqvTTsupRMFY5CRAdKxTaoD9Q6L2u7zG5r4zSwTycpoOFKluFbxdCBMT9o/exec"
+target="hidden_iframe"
+onsubmit="showMessage()">
+
 
 <input type="text" name="name" placeholder="Enter Name" required>
 
@@ -124,47 +69,22 @@ document.getElementById("main").innerHTML = `
 
 <iframe name="hidden_iframe" style="display:none;"></iframe>
 
+<p id="msg"></p>
+
 </div>
 
-`;
 
-}
+<script>
 
-
-
-function submitted()
+function showMessage()
 {
 
-alert("Attendance submitted successfully");
+document.getElementById("msg").innerHTML="Attendance Submitted Successfully";
 
 }
-
-
-
-function showGallery()
-{
-
-document.getElementById("main").innerHTML = `
-
-<h1>Freshers Party Memories</h1>
-
-<img src="photo1.jpg" width="300">
-<img src="photo2.jpg" width="300">
-<img src="photo3.jpg" width="300">
-
-`;
-
-}
-
 
 </script>
 
 
 </body>
-
-
 </html>
-
-
-
-
