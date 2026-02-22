@@ -1,46 +1,193 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Fresher</title>
+
+<title>Freshers Attendance</title>
+
+<style>
+
+body
+{
+font-family: Arial;
+background: linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+color:white;
+text-align:center;
+margin-top:100px;
+}
+
+.container
+{
+background:rgba(0,0,0,0.6);
+padding:30px;
+width:300px;
+margin:auto;
+border-radius:10px;
+}
+
+input
+{
+width:90%;
+padding:10px;
+margin:10px;
+border-radius:5px;
+border:none;
+}
+
+button
+{
+padding:10px 20px;
+background:purple;
+color:white;
+border:none;
+border-radius:5px;
+}
+
+.gallery img
+{
+width:300px;
+margin:20px;
+}
+
+</style>
+
 </head>
 
 <body>
 
-<div id="content"></div>
+
+<div id="main"></div>
+
 
 <script>
 
-document.addEventListener("DOMContentLoaded", function() {
 
-const isAdmin = window.location.hash === "#admin";
+const URL="https://script.google.com/macros/s/AKfycby8ry-E4PFZlIOGxwaDBD7eLr-dlwzezNY8Tz8F9lnGckTThxNorLSKxZ-fzZhk6Iys/exec";
 
-if (isAdmin) {
 
-showAttendance();
+// SECRET ADMIN CODE
+const isAdmin = window.location.hash === "#uditadmin";
 
-} else {
+
+// PAGE LOAD CONTROL
+if(isAdmin)
+{
+
+showForm();
+
+}
+else
+{
 
 showGallery();
 
 }
 
+
+
+
+function showForm()
+{
+
+document.getElementById("main").innerHTML=`
+
+<div class="container">
+
+<h2>Admin Attendance Panel</h2>
+
+
+<form method="POST" action="${URL}" target="hidden_iframe" onsubmit="return checkDuplicate()">
+
+
+
+<input type="text" name="name" required placeholder="Name">
+
+<input type="text" name="roll" id="roll" required placeholder="Roll No">
+
+
+<button type="submit">Submit</button>
+
+</form>
+
+
+<iframe name="hidden_iframe" style="display:none;"></iframe>
+
+<p id="msg"></p>
+
+</div>
+
+`;
+
+}
+
+
+
+
+function checkDuplicate()
+{
+
+var roll=document.getElementById("roll").value;
+
+
+fetch(URL+"?roll="+roll)
+
+.then(res=>res.text())
+
+.then(result=>
+{
+
+
+if(result=="EXISTS")
+{
+
+document.getElementById("msg").innerHTML="Attendance already marked";
+
+}
+else
+{
+
+document.getElementById("msg").innerHTML="Attendance successful";
+
+document.forms[0].submit();
+
+}
+
+
 });
 
-function showGallery() {
 
-document.getElementById("content").innerHTML =
-"<h1>Gallery Page</h1>";
+return false;
 
 }
 
-function showAttendance() {
 
-document.getElementById("content").innerHTML =
-"<h1>Attendance Page</h1>";
+
+
+function showGallery()
+{
+
+document.getElementById("main").innerHTML=`
+
+<h1>Freshers Event Gallery</h1>
+
+<div class="gallery">
+
+<img src="photo1.jpg">
+
+<img src="photo2.jpg">
+
+<img src="photo3.jpg">
+
+</div>
+
+`;
 
 }
+
 
 </script>
 
+
 </body>
+
 </html>
