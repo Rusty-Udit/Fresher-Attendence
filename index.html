@@ -62,29 +62,26 @@ margin:20px;
 
 const URL="https://script.google.com/macros/s/AKfycby8ry-E4PFZlIOGxwaDBD7eLr-dlwzezNY8Tz8F9lnGckTThxNorLSKxZ-fzZhk6Iys/exec";
 
+const ADMIN_KEY="udit123";
 
-fetch(URL)
+const params=new URLSearchParams(window.location.search);
 
-.then(res=>res.text())
+const isAdmin=params.get("admin")==ADMIN_KEY;
 
-.then(mode=>
-{
 
-if(mode=="gallery")
-{
 
-showGallery();
-
-}
-
-else
+if(isAdmin)
 {
 
 showForm();
 
 }
+else
+{
 
-});
+showGallery();
+
+}
 
 
 
@@ -96,11 +93,10 @@ document.getElementById("main").innerHTML=`
 
 <div class="container">
 
-<h2>Freshers Attendance</h2>
+<h2>Freshers Attendance (Admin)</h2>
 
 
 <form method="POST" action="${URL}" target="hidden_iframe" onsubmit="return checkDuplicate()">
-
 
 
 <input type="text" name="name" required placeholder="Name">
@@ -139,7 +135,6 @@ fetch(URL+"?roll="+roll)
 .then(result=>
 {
 
-
 if(result=="EXISTS")
 {
 
@@ -154,7 +149,6 @@ document.getElementById("msg").innerHTML="Attendance successful";
 document.forms[0].submit();
 
 }
-
 
 });
 
@@ -186,6 +180,7 @@ document.getElementById("main").innerHTML=`
 `;
 
 }
+
 
 </script>
 
