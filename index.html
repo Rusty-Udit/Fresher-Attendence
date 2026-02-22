@@ -1,114 +1,46 @@
 <!DOCTYPE html>
+<html>
+<head>
+<title>Fresher</title>
+</head>
+
+<body>
+
+<div id="content"></div>
+
 <script>
 
-const URL="https://script.google.com/macros/s/AKfycby8ry-E4PFZlIOGxwaDBD7eLr-dlwzezNY8Tz8F9lnGckTThxNorLSKxZ-fzZhk6Iys/exec";
+document.addEventListener("DOMContentLoaded", function() {
 
-const ADMIN_KEY="udit123";
+const isAdmin = window.location.hash === "#admin";
 
+if (isAdmin) {
 
-// Read URL parameter
-const params=new URLSearchParams(window.location.search);
+showAttendance();
 
-const isAdmin=params.get("admin")===ADMIN_KEY;
+} else {
 
-
-
-// DEFAULT = GALLERY
-// ADMIN = ATTENDANCE
-
-if(isAdmin)
-{
-showForm();
-}
-else
-{
 showGallery();
-}
 
-
-
-function showForm()
-{
-
-document.getElementById("main").innerHTML=`
-
-<div class="container">
-
-<h2>Freshers Attendance (Admin Only)</h2>
-
-<form method="POST" action="${URL}" target="hidden_iframe" onsubmit="return checkDuplicate()">
-
-<input type="text" name="name" required placeholder="Name">
-
-<input type="text" name="roll" id="roll" required placeholder="Roll No">
-
-<button type="submit">Submit</button>
-
-</form>
-
-<iframe name="hidden_iframe" style="display:none;"></iframe>
-
-<p id="msg"></p>
-
-</div>
-
-`;
-
-}
-
-
-
-function checkDuplicate()
-{
-
-var roll=document.getElementById("roll").value;
-
-fetch(URL+"?roll="+roll)
-
-.then(res=>res.text())
-
-.then(result=>
-{
-
-if(result=="EXISTS")
-{
-document.getElementById("msg").innerHTML="Attendance already marked";
-}
-else
-{
-document.getElementById("msg").innerHTML="Attendance successful";
-document.forms[0].submit();
 }
 
 });
 
-return false;
+function showGallery() {
+
+document.getElementById("content").innerHTML =
+"<h1>Gallery Page</h1>";
 
 }
 
+function showAttendance() {
 
-
-
-function showGallery()
-{
-
-document.getElementById("main").innerHTML=`
-
-<h1>Freshers Party Gallery</h1>
-
-<div class="gallery">
-
-<img src="photo1.jpg">
-
-<img src="photo2.jpg">
-
-<img src="photo3.jpg">
-
-</div>
-
-`;
+document.getElementById("content").innerHTML =
+"<h1>Attendance Page</h1>";
 
 }
 
 </script>
 
+</body>
+</html>
