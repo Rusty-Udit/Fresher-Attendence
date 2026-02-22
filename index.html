@@ -13,7 +13,7 @@ font-family: Arial;
 background: linear-gradient(135deg,#0f0c29,#302b63,#24243e);
 color:white;
 text-align:center;
-margin-top:100px;
+margin-top:50px;
 }
 
 .container
@@ -49,6 +49,12 @@ width:300px;
 margin:20px;
 }
 
+#logo
+{
+width:120px;
+cursor:pointer;
+}
+
 </style>
 
 </head>
@@ -61,25 +67,29 @@ margin:20px;
 
 <script>
 
-
 const URL="https://script.google.com/macros/s/AKfycby8ry-E4PFZlIOGxwaDBD7eLr-dlwzezNY8Tz8F9lnGckTThxNorLSKxZ-fzZhk6Iys/exec";
 
-
-// SECRET ADMIN CODE
-const isAdmin = window.location.hash === "#uditadmin";
+let clickCount = 0;
 
 
-// PAGE LOAD CONTROL
-if(isAdmin)
+
+// DEFAULT LOAD → GALLERY
+showGallery();
+
+
+
+
+function logoClicked()
+{
+
+clickCount++;
+
+if(clickCount >= 5)
 {
 
 showForm();
 
 }
-else
-{
-
-showGallery();
 
 }
 
@@ -95,20 +105,15 @@ document.getElementById("main").innerHTML=`
 
 <h2>Admin Attendance Panel</h2>
 
-
 <form method="POST" action="${URL}" target="hidden_iframe" onsubmit="return checkDuplicate()">
-
-
 
 <input type="text" name="name" required placeholder="Name">
 
 <input type="text" name="roll" id="roll" required placeholder="Roll No">
 
-
 <button type="submit">Submit</button>
 
 </form>
-
 
 <iframe name="hidden_iframe" style="display:none;"></iframe>
 
@@ -128,14 +133,12 @@ function checkDuplicate()
 
 var roll=document.getElementById("roll").value;
 
-
 fetch(URL+"?roll="+roll)
 
 .then(res=>res.text())
 
 .then(result=>
 {
-
 
 if(result=="EXISTS")
 {
@@ -152,9 +155,7 @@ document.forms[0].submit();
 
 }
 
-
 });
-
 
 return false;
 
@@ -167,6 +168,8 @@ function showGallery()
 {
 
 document.getElementById("main").innerHTML=`
+
+<img src="logo.png" id="logo">
 
 <h1>Freshers Event Gallery</h1>
 
@@ -181,6 +184,10 @@ document.getElementById("main").innerHTML=`
 </div>
 
 `;
+
+
+// attach click event
+document.getElementById("logo").addEventListener("click",logoClicked);
 
 }
 
